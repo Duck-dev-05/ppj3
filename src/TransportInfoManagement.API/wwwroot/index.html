@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport Information Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="screen">
+        <div class="login-container">
+            <div class="login-box">
+                <h1>Transport Information Management</h1>
+                <h2>Excell-On Services</h2>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                    <div id="loginError" class="error-message"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="mainApp" class="screen hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Excell-On Services</h2>
+                <div class="user-info">
+                    <span id="userFullName"></span>
+                    <button id="logoutBtn" class="btn btn-sm">Đăng xuất</button>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" data-page="dashboard" class="nav-item active">
+                    <span>📊</span> Dashboard
+                </a>
+                <a href="#" data-page="services" class="nav-item">
+                    <span>🔧</span> Dịch vụ
+                </a>
+                <a href="#" data-page="departments" class="nav-item">
+                    <span>🏢</span> Phòng ban
+                </a>
+                <a href="#" data-page="employees" class="nav-item">
+                    <span>👥</span> Nhân viên
+                </a>
+                <a href="#" data-page="clients" class="nav-item">
+                    <span>👤</span> Khách hàng
+                </a>
+                <a href="#" data-page="client-services" class="nav-item">
+                    <span>🔗</span> Dịch vụ khách hàng
+                </a>
+                <a href="#" data-page="products" class="nav-item">
+                    <span>📦</span> Sản phẩm
+                </a>
+                <a href="#" data-page="payments" class="nav-item">
+                    <span>💰</span> Thanh toán
+                </a>
+                <a href="#" data-page="reports" class="nav-item">
+                    <span>📈</span> Báo cáo
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="pageContent"></div>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/departments.js"></script>
+    <script src="js/employees.js"></script>
+    <script src="js/clients.js"></script>
+    <script src="js/client-services.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/payments.js"></script>
+    <script src="js/reports.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+
