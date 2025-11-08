@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang cá nhân - Excell-On Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="userDashboard" class="screen">
+        <!-- Navigation -->
+        <nav class="navbar" style="position: fixed; top: 0; left: 0; right: 0; background: white; box-shadow: var(--shadow-md); z-index: 1000; padding: 1rem 0;">
+            <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 1.5rem; font-weight: 700; color: var(--primary-color);">
+                    <i class="fas fa-headset"></i>
+                    <span>Excell-On Services</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span id="userWelcome" style="color: var(--text-color); font-weight: 500;"></span>
+                    <a href="/" class="btn btn-sm" style="background: var(--bg-color);">
+                        <i class="fas fa-home"></i> Trang chủ
+                    </a>
+                    <button id="logoutBtn" class="btn btn-sm btn-danger">
+                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main style="margin-top: 80px; padding: 2rem;">
+            <div class="container">
+                <div class="page-header">
+                    <h1><i class="fas fa-user-circle"></i> Trang cá nhân</h1>
+                </div>
+
+                <div class="stats-grid" style="margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <h3>Xin chào!</h3>
+                        <div class="value" id="userNameDisplay"></div>
+                        <small>Chào mừng bạn trở lại hệ thống</small>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Vai trò</h3>
+                        <div class="value" id="userRoleDisplay"></div>
+                        <small>Quyền truy cập của bạn</small>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-info-circle"></i> Thông tin tài khoản</h2>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <p>Bạn đã đăng nhập thành công vào hệ thống Excell-On Services.</p>
+                        <p>Đây là trang dành cho người dùng thường. Nếu bạn là quản trị viên, vui lòng đăng nhập bằng tài khoản admin.</p>
+                        <div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-color); border-radius: var(--radius-md);">
+                            <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-shield-alt"></i> Quyền truy cập</h4>
+                            <p style="color: var(--text-secondary); margin: 0;">Tài khoản của bạn có quyền xem thông tin cá nhân và sử dụng các tính năng công khai của hệ thống.</p>
+                        </div>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="/admin" class="btn btn-primary">
+                                <i class="fas fa-user-shield"></i> Truy cập Admin Panel (chỉ dành cho Admin)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 1.5rem;">
+                    <div class="card-header">
+                        <h2><i class="fas fa-list"></i> Các tính năng có sẵn</h2>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem;">
+                                <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+                                <span>Xem thông tin cá nhân</span>
+                            </li>
+                            <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem;">
+                                <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+                                <span>Truy cập các dịch vụ công khai</span>
+                            </li>
+                            <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem;">
+                                <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+                                <span>Liên hệ với chúng tôi</span>
+                            </li>
+                            <li style="padding: 0.75rem 0; display: flex; align-items: center; gap: 0.75rem;">
+                                <i class="fas fa-info-circle" style="color: var(--info-color);"></i>
+                                <span>Để truy cập đầy đủ tính năng quản trị, vui lòng đăng nhập bằng tài khoản Admin</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        // Check authentication
+        window.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            const username = localStorage.getItem('username');
+            const fullName = localStorage.getItem('userFullName');
+            const role = localStorage.getItem('userRole');
+
+            if (!token) {
+                window.location.href = '/login';
+                return;
+            }
+
+            // Display user info
+            document.getElementById('userNameDisplay').textContent = fullName || username || 'Người dùng';
+            document.getElementById('userRoleDisplay').textContent = role === 'Admin' ? 'Quản trị viên' : 'Người dùng';
+            document.getElementById('userWelcome').textContent = `Xin chào, ${fullName || username || 'Người dùng'}`;
+
+            // Logout handler
+            document.getElementById('logoutBtn').addEventListener('click', () => {
+                localStorage.clear();
+                window.location.href = '/login';
+            });
+        });
+    </script>
+</body>
+</html>
+
+

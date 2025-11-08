@@ -108,6 +108,74 @@ TransportInfoManagement/
 - ✅ Báo cáo thanh toán quá hạn
 - ✅ Dashboard với tổng quan hệ thống
 
+### Test API bằng Swagger
+
+#### Cách truy cập Swagger UI
+
+1. **Chạy ứng dụng**:
+   ```bash
+   cd src/TransportInfoManagement.API
+   dotnet run
+   ```
+
+2. **Mở Swagger UI**:
+   - Tự động mở tại: `http://localhost:5000/swagger` hoặc `https://localhost:5001/swagger`
+   - Hoặc truy cập thủ công: Mở trình duyệt và vào địa chỉ trên
+
+#### Hướng dẫn sử dụng Swagger để test API
+
+##### Bước 1: Đăng nhập để lấy JWT Token
+
+1. Trong Swagger UI, tìm endpoint **`POST /api/auth/login`**
+2. Click vào endpoint để mở rộng
+3. Click nút **"Try it out"**
+4. Nhập thông tin đăng nhập:
+   ```json
+   {
+     "username": "admin",
+     "password": "admin123"
+   }
+   ```
+5. Click **"Execute"**
+6. Copy giá trị `token` từ response (ví dụ: `"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."`)
+
+##### Bước 2: Xác thực với JWT Token
+
+1. Ở phía trên cùng của Swagger UI, tìm nút **"Authorize"** (🔒)
+2. Click vào nút **"Authorize"**
+3. Trong hộp thoại mở ra, bạn sẽ thấy trường "Value"
+4. Nhập token theo định dạng: `Bearer {token}`
+   - Ví dụ: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
+   - **Lưu ý**: Phải có từ khóa "Bearer" và một khoảng trắng trước token
+5. Click **"Authorize"**
+6. Click **"Close"**
+
+##### Bước 3: Test các API endpoints khác
+
+Sau khi đã authorize thành công:
+- Tất cả các API endpoints (trừ `/api/auth/login`) sẽ tự động thêm JWT token vào header
+- Bạn có thể test bất kỳ endpoint nào bằng cách:
+  1. Click vào endpoint muốn test
+  2. Click **"Try it out"**
+  3. Điền các tham số (nếu có)
+  4. Click **"Execute"**
+  5. Xem kết quả response
+
+##### Các tính năng hữu ích trong Swagger UI
+
+- **Schema**: Xem cấu trúc dữ liệu request/response
+- **Parameters**: Xem các tham số cần thiết
+- **Response**: Xem các mã trạng thái và format response
+- **Try it out**: Test API trực tiếp từ trình duyệt
+- **Authorize**: Quản lý JWT token cho tất cả các request
+
+##### Lưu ý
+
+- Token JWT có thời gian hết hạn (thường là 24 giờ)
+- Nếu nhận được lỗi `401 Unauthorized`, có thể token đã hết hạn, cần đăng nhập lại
+- Để test lại, chỉ cần làm lại Bước 1 và Bước 2
+- Swagger chỉ hoạt động trong môi trường **Development**
+
 ### API Endpoints
 
 #### Authentication

@@ -5,8 +5,10 @@ window.loadEmployees = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1>Quản lý Nhân viên</h1>
-            <button class="btn btn-primary" onclick="showEmployeeModal()">Thêm nhân viên</button>
+            <h1><i class="fas fa-users"></i> Quản lý Nhân viên</h1>
+            <button class="btn btn-primary" onclick="showEmployeeModal()">
+                <i class="fas fa-plus"></i> Thêm nhân viên
+            </button>
         </div>
         <div class="card">
             <div class="search-bar">
@@ -77,8 +79,12 @@ async function loadEmployeesData() {
                 <td>${emp.service?.name || 'N/A'}</td>
                 <td>${emp.department?.name || 'N/A'}</td>
                 <td class="actions">
-                    <button class="btn-icon btn-edit" onclick="editEmployee(${emp.id})">✏️</button>
-                    <button class="btn-icon btn-delete" onclick="deleteEmployee(${emp.id})">🗑️</button>
+                    <button class="btn-icon btn-edit" onclick="editEmployee(${emp.id})" title="Sửa">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-icon btn-delete" onclick="deleteEmployee(${emp.id})" title="Xóa">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </td>
             </tr>
         `).join('');

@@ -4,8 +4,10 @@ window.loadPayments = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1>Quản lý Thanh toán</h1>
-            <button class="btn btn-primary" onclick="showPaymentModal()">Thêm thanh toán</button>
+            <h1><i class="fas fa-money-bill-wave"></i> Quản lý Thanh toán</h1>
+            <button class="btn btn-primary" onclick="showPaymentModal()">
+                <i class="fas fa-plus"></i> Thêm thanh toán
+            </button>
         </div>
         <div class="card">
             <div class="search-bar">
@@ -87,8 +89,12 @@ async function loadPaymentsData() {
                     </span>
                 </td>
                 <td class="actions">
-                    <button class="btn-icon btn-edit" onclick="editPayment(${payment.id})">✏️</button>
-                    <button class="btn-icon btn-delete" onclick="deletePayment(${payment.id})">🗑️</button>
+                    <button class="btn-icon btn-edit" onclick="editPayment(${payment.id})" title="Sửa">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-icon btn-delete" onclick="deletePayment(${payment.id})" title="Xóa">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </td>
             </tr>
         `).join('');

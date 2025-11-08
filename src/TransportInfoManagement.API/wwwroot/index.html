@@ -4,16 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transport Information Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Login Screen -->
+    <!-- Login/Register Screen -->
     <div id="loginScreen" class="screen">
         <div class="login-container">
             <div class="login-box">
                 <h1>Transport Information Management</h1>
                 <h2>Excell-On Services</h2>
-                <form id="loginForm">
+                
+                <!-- Admin Panel Info -->
+                <div class="auth-info">
+                    <p style="text-align: center; color: #64748b; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                        <i class="fas fa-shield-alt"></i> Đây là trang quản trị dành cho Admin
+                    </p>
+                    <p style="text-align: center; margin-top: 0.5rem;">
+                        <a href="/login" style="color: var(--primary-color); text-decoration: none; font-size: 0.875rem;">
+                            <i class="fas fa-arrow-left"></i> Quay lại trang đăng nhập
+                        </a>
+                    </p>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form" style="display: block;">
                     <div class="form-group">
                         <label for="username">Tên đăng nhập</label>
                         <input type="text" id="username" required>
@@ -24,6 +39,34 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Đăng nhập</button>
                     <div id="loginError" class="error-message"></div>
+                </form>
+
+                <!-- Register Form - Hidden for Admin Panel -->
+                <form id="registerForm" class="auth-form hidden" style="display: none !important;">
+                    <div class="form-group">
+                        <label for="regFullName">Họ và tên</label>
+                        <input type="text" id="regFullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regUsername">Tên đăng nhập</label>
+                        <input type="text" id="regUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regEmail">Email</label>
+                        <input type="email" id="regEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPassword">Mật khẩu</label>
+                        <input type="password" id="regPassword" required minlength="6">
+                        <small style="color: #666; font-size: 0.875rem;">Mật khẩu tối thiểu 6 ký tự</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="regConfirmPassword">Xác nhận mật khẩu</label>
+                        <input type="password" id="regConfirmPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Đăng ký</button>
+                    <div id="registerError" class="error-message"></div>
+                    <div id="registerSuccess" class="success-message"></div>
                 </form>
             </div>
         </div>
@@ -42,31 +85,40 @@
             </div>
             <nav class="sidebar-nav">
                 <a href="#" data-page="dashboard" class="nav-item active">
-                    <span>📊</span> Dashboard
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
                 </a>
                 <a href="#" data-page="services" class="nav-item">
-                    <span>🔧</span> Dịch vụ
+                    <i class="fas fa-cog"></i>
+                    <span>Dịch vụ</span>
                 </a>
                 <a href="#" data-page="departments" class="nav-item">
-                    <span>🏢</span> Phòng ban
+                    <i class="fas fa-building"></i>
+                    <span>Phòng ban</span>
                 </a>
                 <a href="#" data-page="employees" class="nav-item">
-                    <span>👥</span> Nhân viên
+                    <i class="fas fa-users"></i>
+                    <span>Nhân viên</span>
                 </a>
                 <a href="#" data-page="clients" class="nav-item">
-                    <span>👤</span> Khách hàng
+                    <i class="fas fa-user-tie"></i>
+                    <span>Khách hàng</span>
                 </a>
                 <a href="#" data-page="client-services" class="nav-item">
-                    <span>🔗</span> Dịch vụ khách hàng
+                    <i class="fas fa-link"></i>
+                    <span>Dịch vụ khách hàng</span>
                 </a>
                 <a href="#" data-page="products" class="nav-item">
-                    <span>📦</span> Sản phẩm
+                    <i class="fas fa-box"></i>
+                    <span>Sản phẩm</span>
                 </a>
                 <a href="#" data-page="payments" class="nav-item">
-                    <span>💰</span> Thanh toán
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Thanh toán</span>
                 </a>
                 <a href="#" data-page="reports" class="nav-item">
-                    <span>📈</span> Báo cáo
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Báo cáo</span>
                 </a>
             </nav>
         </aside>

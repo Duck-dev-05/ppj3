@@ -26,7 +26,25 @@ public class AuthController : ControllerBase
         var response = await _authService.LoginAsync(request);
         if (response == null)
         {
-            return Unauthorized(new { message = "Invalid username or password" });
+            return Unauthorized(new { message = "Tên đăng nhập hoặc mật khẩu không đúng" });
+        }
+
+        return Ok(response);
+    }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var response = await _authService.RegisterAsync(request);
+        
+        if (!response.Success)
+        {
+            return BadRequest(new { message = response.Message });
         }
 
         return Ok(response);

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Excell-On Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="screen">
+        <div class="login-container">
+            <div class="login-box">
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <a href="/" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--primary-color); font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">
+                        <i class="fas fa-headset"></i>
+                        <span>Excell-On Services</span>
+                    </a>
+                </div>
+                <h1>Đăng nhập</h1>
+                <h2>Vào hệ thống của bạn</h2>
+                
+                <!-- Login Form -->
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                        <input type="text" id="username" required placeholder="Nhập tên đăng nhập">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" id="password" required placeholder="Nhập mật khẩu">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                    </button>
+                    <div id="loginError" class="error-message"></div>
+                </form>
+
+                <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                    <a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;">
+                        <i class="fas fa-arrow-left"></i> Quay lại trang chủ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
+
+

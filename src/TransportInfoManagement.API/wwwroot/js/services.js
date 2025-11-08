@@ -2,8 +2,10 @@ window.loadServices = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1>Quản lý Dịch vụ</h1>
-            <button class="btn btn-primary" onclick="showServiceModal()">Thêm dịch vụ</button>
+            <h1><i class="fas fa-cog"></i> Quản lý Dịch vụ</h1>
+            <button class="btn btn-primary" onclick="showServiceModal()">
+                <i class="fas fa-plus"></i> Thêm dịch vụ
+            </button>
         </div>
         <div class="card">
             <div class="card-header">
@@ -58,8 +60,12 @@ async function loadServicesData() {
                 <td>${service.description}</td>
                 <td>${service.isActive ? 'Hoạt động' : 'Không hoạt động'}</td>
                 <td class="actions">
-                    <button class="btn-icon btn-edit" onclick="editService(${service.id})">✏️</button>
-                    <button class="btn-icon btn-delete" onclick="deleteService(${service.id})">🗑️</button>
+                    <button class="btn-icon btn-edit" onclick="editService(${service.id})" title="Sửa">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-icon btn-delete" onclick="deleteService(${service.id})" title="Xóa">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </td>
             </tr>
         `).join('');
@@ -77,7 +83,9 @@ async function loadServiceFees() {
                 <td>${fee.service?.name || 'N/A'}</td>
                 <td>$${fee.feePerDayPerEmployee.toLocaleString()}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary" onclick="editServiceFee(${fee.id}, ${fee.serviceId})">Sửa phí</button>
+                    <button class="btn btn-sm btn-primary" onclick="editServiceFee(${fee.id}, ${fee.serviceId})">
+                        <i class="fas fa-edit"></i> Sửa phí
+                    </button>
                 </td>
             </tr>
         `).join('');
@@ -105,8 +113,12 @@ async function showServiceModal(serviceId = null) {
                 </label>
             </div>
             <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
-                <button type="button" class="btn" onclick="closeModal('serviceModal')">Hủy</button>
-                <button type="submit" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn" onclick="closeModal('serviceModal')">
+                    <i class="fas fa-times"></i> Hủy
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Lưu
+                </button>
             </div>
         </form>
     `);

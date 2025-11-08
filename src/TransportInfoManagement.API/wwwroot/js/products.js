@@ -4,8 +4,10 @@ window.loadProducts = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1>Quản lý Sản phẩm</h1>
-            <button class="btn btn-primary" onclick="showProductModal()">Thêm sản phẩm</button>
+            <h1><i class="fas fa-box"></i> Quản lý Sản phẩm</h1>
+            <button class="btn btn-primary" onclick="showProductModal()">
+                <i class="fas fa-plus"></i> Thêm sản phẩm
+            </button>
         </div>
         <div class="card">
             <div class="search-bar">
@@ -56,8 +58,12 @@ async function loadProductsData() {
                 <td>${product.category}</td>
                 <td>${product.description}</td>
                 <td class="actions">
-                    <button class="btn-icon btn-edit" onclick="editProduct(${product.id})">✏️</button>
-                    <button class="btn-icon btn-delete" onclick="deleteProduct(${product.id})">🗑️</button>
+                    <button class="btn-icon btn-edit" onclick="editProduct(${product.id})" title="Sửa">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-icon btn-delete" onclick="deleteProduct(${product.id})" title="Xóa">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </td>
             </tr>
         `).join('');

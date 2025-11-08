@@ -4,7 +4,7 @@ window.loadReports = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1>Báo cáo</h1>
+            <h1><i class="fas fa-chart-bar"></i> Báo cáo</h1>
         </div>
         <div class="card">
             <div class="card-header">

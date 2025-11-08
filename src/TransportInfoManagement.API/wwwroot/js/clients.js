@@ -2,13 +2,17 @@ window.loadClients = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1>Quản lý Khách hàng</h1>
-            <button class="btn btn-primary" onclick="showClientModal()">Thêm khách hàng</button>
+            <h1><i class="fas fa-user-tie"></i> Quản lý Khách hàng</h1>
+            <button class="btn btn-primary" onclick="showClientModal()">
+                <i class="fas fa-plus"></i> Thêm khách hàng
+            </button>
         </div>
         <div class="card">
             <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="Tìm kiếm khách hàng..." onkeyup="loadClientsData()">
-                <button class="btn btn-primary" onclick="showAdvancedSearch()">Tìm kiếm nâng cao</button>
+                <button class="btn btn-primary" onclick="showAdvancedSearch()">
+                    <i class="fas fa-search"></i> Tìm kiếm nâng cao
+                </button>
             </div>
             <div class="table-container">
                 <table id="clientsTable">
@@ -49,8 +53,12 @@ async function loadClientsData() {
                 <td>${client.city}</td>
                 <td>${client.isActive ? 'Hoạt động' : 'Không hoạt động'}</td>
                 <td class="actions">
-                    <button class="btn-icon btn-edit" onclick="editClient(${client.id})">✏️</button>
-                    <button class="btn-icon btn-delete" onclick="deleteClient(${client.id})">🗑️</button>
+                    <button class="btn-icon btn-edit" onclick="editClient(${client.id})" title="Sửa">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-icon btn-delete" onclick="deleteClient(${client.id})" title="Xóa">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </td>
             </tr>
         `).join('');

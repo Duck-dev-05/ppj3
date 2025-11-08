@@ -2,8 +2,10 @@ window.loadDepartments = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1>Quản lý Phòng ban</h1>
-            <button class="btn btn-primary" onclick="showDepartmentModal()">Thêm phòng ban</button>
+            <h1><i class="fas fa-building"></i> Quản lý Phòng ban</h1>
+            <button class="btn btn-primary" onclick="showDepartmentModal()">
+                <i class="fas fa-plus"></i> Thêm phòng ban
+            </button>
         </div>
         <div class="card">
             <div class="card-header">
@@ -40,8 +42,12 @@ async function loadDepartmentsData() {
                 <td>${dept.description}</td>
                 <td>${dept.isActive ? 'Hoạt động' : 'Không hoạt động'}</td>
                 <td class="actions">
-                    <button class="btn-icon btn-edit" onclick="editDepartment(${dept.id})">✏️</button>
-                    <button class="btn-icon btn-delete" onclick="deleteDepartment(${dept.id})">🗑️</button>
+                    <button class="btn-icon btn-edit" onclick="editDepartment(${dept.id})" title="Sửa">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-icon btn-delete" onclick="deleteDepartment(${dept.id})" title="Xóa">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </td>
             </tr>
         `).join('');

@@ -76,8 +76,87 @@ app.UseStaticFiles();
 // Map API controllers
 app.MapControllers();
 
-// Fallback to index.html for SPA routing (only for non-API routes)
-app.MapFallbackToFile("index.html");
+var env = app.Services.GetRequiredService<IWebHostEnvironment>();
+
+// Login page route
+app.MapGet("/login", async (context) =>
+{
+    var loginFilePath = Path.Combine(env.WebRootPath, "login.html");
+    if (File.Exists(loginFilePath))
+    {
+        context.Response.ContentType = "text/html";
+        await context.Response.SendFileAsync(loginFilePath);
+        return;
+    }
+    // Fallback to admin login if login.html doesn't exist
+    var adminFilePath = Path.Combine(env.WebRootPath, "index.html");
+    if (File.Exists(adminFilePath))
+    {
+        context.Response.ContentType = "text/html";
+        await context.Response.SendFileAsync(adminFilePath);
+    }
+});
+
+// User dashboard route
+app.MapGet("/user", async (context) =>
+{
+    var userFilePath = Path.Combine(env.WebRootPath, "user.html");
+    if (File.Exists(userFilePath))
+    {
+        context.Response.ContentType = "text/html";
+        await context.Response.SendFileAsync(userFilePath);
+        return;
+    }
+    // Redirect to home if user.html doesn't exist
+    context.Response.Redirect("/");
+});
+
+// Admin panel route - serve admin panel at /admin
+app.MapGet("/admin", async (context) =>
+{
+    var adminFilePath = Path.Combine(env.WebRootPath, "index.html");
+    if (File.Exists(adminFilePath))
+    {
+        context.Response.ContentType = "text/html";
+        await context.Response.SendFileAsync(adminFilePath);
+    }
+});
+
+// Public website route - serve public/index.html at root
+app.MapGet("/", async (context) =>
+{
+    var publicFilePath = Path.Combine(env.WebRootPath, "public", "index.html");
+    if (File.Exists(publicFilePath))
+    {
+        context.Response.ContentType = "text/html";
+        await context.Response.SendFileAsync(publicFilePath);
+        return;
+    }
+    // Fallback to admin if public folder doesn't exist
+    var adminFilePath = Path.Combine(env.WebRootPath, "index.html");
+    if (File.Exists(adminFilePath))
+    {
+        context.Response.ContentType = "text/html";
+        await context.Response.SendFileAsync(adminFilePath);
+    }
+});
+
+// Fallback for admin panel SPA routing (routes starting with /admin)
+app.MapFallback(context =>
+{
+    var path = context.Request.Path.Value?.ToLower();
+    // Only handle /admin routes for SPA fallback
+    if (path?.StartsWith("/admin") == true && !path.StartsWith("/api"))
+    {
+        var adminFilePath = Path.Combine(env.WebRootPath, "index.html");
+        if (File.Exists(adminFilePath))
+        {
+            context.Response.ContentType = "text/html";
+            return context.Response.SendFileAsync(adminFilePath);
+        }
+    }
+    return Task.CompletedTask;
+});
 
 // Ensure database is created
 using (var scope = app.Services.CreateScope())
