@@ -77,6 +77,21 @@ public class ClientsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Client>> CreateClient(Client client)
     {
+        // Validate model
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        // Ignore the ID from request body - let EF Core auto-generate it
+        client.Id = 0;
+
+        // Check if email already exists
+        if (await _context.Clients.AnyAsync(c => c.Email.ToLower() == client.Email.ToLower()))
+        {
+            return BadRequest(new { message = "Email already exists" });
+        }
+
         // Generate client code if not provided
         if (string.IsNullOrEmpty(client.ClientCode))
         {
@@ -85,7 +100,18 @@ public class ClientsController : ControllerBase
 
         client.CreatedAt = DateTime.UtcNow;
         _context.Clients.Add(client);
-        await _context.SaveChangesAsync();
+        
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateException ex)
+        {
+            return BadRequest(new { message = "Error saving client: " + ex.Message });
+        }
+        
+        // EF Core automatically populates the ID after SaveChangesAsync
+        // Return the created client using CreatedAtAction (REST standard)
         return CreatedAtAction(nameof(GetClient), new { id = client.Id }, client);
     }
 
