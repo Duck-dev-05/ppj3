@@ -6,10 +6,10 @@ function updateActionButtons() {
     document.querySelectorAll('.btn-icon').forEach(btn => {
         if (btn.textContent.includes('✏️')) {
             btn.innerHTML = '<i class="fas fa-edit"></i>';
-            btn.setAttribute('title', 'Sửa');
+            btn.setAttribute('title', 'Edit');
         } else if (btn.textContent.includes('🗑️')) {
             btn.innerHTML = '<i class="fas fa-trash"></i>';
-            btn.setAttribute('title', 'Xóa');
+            btn.setAttribute('title', 'Delete');
         }
     });
 }
@@ -39,18 +39,18 @@ function getStatusBadge(isActive, type = 'default') {
     }
     
     if (isActive) {
-        return '<span class="badge badge-success"><i class="fas fa-check-circle"></i> Hoạt động</span>';
+        return '<span class="badge badge-success"><i class="fas fa-check-circle"></i> Active</span>';
     } else {
-        return '<span class="badge badge-secondary"><i class="fas fa-times-circle"></i> Không hoạt động</span>';
+        return '<span class="badge badge-secondary"><i class="fas fa-times-circle"></i> Inactive</span>';
     }
 }
 
 // Payment status badge
 function getPaymentStatusBadge(status) {
     const badges = {
-        'Paid': '<span class="badge badge-success"><i class="fas fa-check"></i> Đã thanh toán</span>',
-        'Pending': '<span class="badge badge-warning"><i class="fas fa-clock"></i> Chờ thanh toán</span>',
-        'Overdue': '<span class="badge badge-danger"><i class="fas fa-exclamation-triangle"></i> Quá hạn</span>'
+        'Paid': '<span class="badge badge-success"><i class="fas fa-check"></i> Paid</span>',
+        'Pending': '<span class="badge badge-warning"><i class="fas fa-clock"></i> Pending Payment</span>',
+        'Overdue': '<span class="badge badge-danger"><i class="fas fa-exclamation-triangle"></i> Overdue</span>'
     };
     return badges[status] || status;
 }
@@ -76,7 +76,7 @@ function formatDate(dateString) {
 
 // Show loading spinner
 function showLoading(element) {
-    element.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Đang tải...</div>';
+    element.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
 }
 
 // Show error message

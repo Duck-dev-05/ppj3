@@ -2,24 +2,24 @@ window.loadDepartments = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1><i class="fas fa-building"></i> Quản lý Phòng ban</h1>
+            <h1><i class="fas fa-building"></i> Manage Departments</h1>
             <button class="btn btn-primary" onclick="showDepartmentModal()">
-                <i class="fas fa-plus"></i> Thêm phòng ban
+                <i class="fas fa-plus"></i> Add Department
             </button>
         </div>
         <div class="card">
             <div class="card-header">
-                <h2>Danh sách phòng ban</h2>
+                <h2>Department List</h2>
             </div>
             <div class="table-container">
                 <table id="departmentsTable">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Tên phòng ban</th>
-                            <th>Mô tả</th>
-                            <th>Trạng thái</th>
-                            <th>Thao tác</th>
+                            <th>Department Name</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -40,12 +40,12 @@ async function loadDepartmentsData() {
                 <td>${dept.id}</td>
                 <td>${dept.name}</td>
                 <td>${dept.description}</td>
-                <td>${dept.isActive ? 'Hoạt động' : 'Không hoạt động'}</td>
+                <td>${dept.isActive ? 'Active' : 'Inactive'}</td>
                 <td class="actions">
-                    <button class="btn-icon btn-edit" onclick="editDepartment(${dept.id})" title="Sửa">
+                    <button class="btn-icon btn-edit" onclick="editDepartment(${dept.id})" title="Edit">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn-icon btn-delete" onclick="deleteDepartment(${dept.id})" title="Xóa">
+                    <button class="btn-icon btn-delete" onclick="deleteDepartment(${dept.id})" title="Delete">
                         <i class="fas fa-trash"></i>
                     </button>
                 </td>
@@ -58,25 +58,25 @@ async function loadDepartmentsData() {
 
 async function showDepartmentModal(deptId = null) {
     const dept = deptId ? await api.get(`/departments/${deptId}`) : null;
-    const modal = createModal('departmentModal', deptId ? 'Sửa phòng ban' : 'Thêm phòng ban', `
+    const modal = createModal('departmentModal', deptId ? 'Edit Department' : 'Add Department', `
         <form id="departmentForm">
             <div class="form-group">
-                <label>Tên phòng ban</label>
+                <label>Department Name</label>
                 <input type="text" id="deptName" value="${dept?.name || ''}" required>
             </div>
             <div class="form-group">
-                <label>Mô tả</label>
+                <label>Description</label>
                 <textarea id="deptDescription" rows="3">${dept?.description || ''}</textarea>
             </div>
             <div class="form-group">
                 <label>
                     <input type="checkbox" id="deptIsActive" ${dept?.isActive !== false ? 'checked' : ''}>
-                    Hoạt động
+                    Active
                 </label>
             </div>
             <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
-                <button type="button" class="btn" onclick="closeModal('departmentModal')">Hủy</button>
-                <button type="submit" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn" onclick="closeModal('departmentModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
     `);
@@ -100,7 +100,7 @@ async function showDepartmentModal(deptId = null) {
             closeModal('departmentModal');
             await loadDepartmentsData();
         } catch (error) {
-            alert('Lỗi: ' + error.message);
+            alert('Error: ' + error.message);
         }
     });
 }
@@ -110,12 +110,12 @@ async function editDepartment(id) {
 }
 
 async function deleteDepartment(id) {
-    if (!confirm('Bạn có chắc muốn xóa phòng ban này?')) return;
+    if (!confirm('Are you sure you want to delete this department?')) return;
     try {
         await api.delete(`/departments/${id}`);
         await loadDepartmentsData();
     } catch (error) {
-        alert('Lỗi: ' + error.message);
+        alert('Error: ' + error.message);
     }
 }
 

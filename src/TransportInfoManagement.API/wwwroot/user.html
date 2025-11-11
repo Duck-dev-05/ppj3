@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang cá nhân - Excell-On Services</title>
+    <title>Profile Page - Excell-On Services</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -19,10 +19,10 @@
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <span id="userWelcome" style="color: var(--text-color); font-weight: 500;"></span>
                     <a href="/" class="btn btn-sm" style="background: var(--bg-color);">
-                        <i class="fas fa-home"></i> Trang chủ
+                        <i class="fas fa-home"></i> Homepage
                     </a>
                     <button id="logoutBtn" class="btn btn-sm btn-danger">
-                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                        <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
                 </div>
             </div>
@@ -32,36 +32,36 @@
         <main style="margin-top: 80px; padding: 2rem;">
             <div class="container">
                 <div class="page-header">
-                    <h1><i class="fas fa-user-circle"></i> Trang cá nhân</h1>
+                    <h1><i class="fas fa-user-circle"></i> Profile Page</h1>
                 </div>
 
                 <div class="stats-grid" style="margin-bottom: 2rem;">
                     <div class="stat-card">
-                        <h3>Xin chào!</h3>
+                        <h3>Hello!</h3>
                         <div class="value" id="userNameDisplay"></div>
-                        <small>Chào mừng bạn trở lại hệ thống</small>
+                        <small>Welcome back to the system</small>
                     </div>
                     <div class="stat-card">
-                        <h3>Vai trò</h3>
+                        <h3>Role</h3>
                         <div class="value" id="userRoleDisplay"></div>
-                        <small>Quyền truy cập của bạn</small>
+                        <small>Your access rights</small>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
-                        <h2><i class="fas fa-info-circle"></i> Thông tin tài khoản</h2>
+                        <h2><i class="fas fa-info-circle"></i> Account Information</h2>
                     </div>
                     <div style="padding: 1.5rem;">
-                        <p>Bạn đã đăng nhập thành công vào hệ thống Excell-On Services.</p>
-                        <p>Đây là trang dành cho người dùng thường. Nếu bạn là quản trị viên, vui lòng đăng nhập bằng tài khoản admin.</p>
+                        <p>You have successfully logged into the Excell-On Services system.</p>
+                        <p>This page is for regular users. If you are an administrator, please log in with an admin account.</p>
                         <div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-color); border-radius: var(--radius-md);">
-                            <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-shield-alt"></i> Quyền truy cập</h4>
-                            <p style="color: var(--text-secondary); margin: 0;">Tài khoản của bạn có quyền xem thông tin cá nhân và sử dụng các tính năng công khai của hệ thống.</p>
+                            <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-shield-alt"></i> Access Rights</h4>
+                            <p style="color: var(--text-secondary); margin: 0;">Your account has the right to view personal information and use public features of the system.</p>
                         </div>
                         <div style="margin-top: 1.5rem;">
                             <a href="/admin" class="btn btn-primary">
-                                <i class="fas fa-user-shield"></i> Truy cập Admin Panel (chỉ dành cho Admin)
+                                <i class="fas fa-user-shield"></i> Access Admin Panel (Admin only)
                             </a>
                         </div>
                     </div>
@@ -69,25 +69,25 @@
 
                 <div class="card" style="margin-top: 1.5rem;">
                     <div class="card-header">
-                        <h2><i class="fas fa-list"></i> Các tính năng có sẵn</h2>
+                        <h2><i class="fas fa-list"></i> Available Features</h2>
                     </div>
                     <div style="padding: 1.5rem;">
                         <ul style="list-style: none; padding: 0;">
                             <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem;">
                                 <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
-                                <span>Xem thông tin cá nhân</span>
+                                <span>View personal information</span>
                             </li>
                             <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem;">
                                 <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
-                                <span>Truy cập các dịch vụ công khai</span>
+                                <span>Access public services</span>
                             </li>
                             <li style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 0.75rem;">
                                 <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
-                                <span>Liên hệ với chúng tôi</span>
+                                <span>Contact us</span>
                             </li>
                             <li style="padding: 0.75rem 0; display: flex; align-items: center; gap: 0.75rem;">
                                 <i class="fas fa-info-circle" style="color: var(--info-color);"></i>
-                                <span>Để truy cập đầy đủ tính năng quản trị, vui lòng đăng nhập bằng tài khoản Admin</span>
+                                <span>To access full administrative features, please log in with an Admin account</span>
                             </li>
                         </ul>
                     </div>
@@ -111,9 +111,9 @@
             }
 
             // Display user info
-            document.getElementById('userNameDisplay').textContent = fullName || username || 'Người dùng';
-            document.getElementById('userRoleDisplay').textContent = role === 'Admin' ? 'Quản trị viên' : 'Người dùng';
-            document.getElementById('userWelcome').textContent = `Xin chào, ${fullName || username || 'Người dùng'}`;
+            document.getElementById('userNameDisplay').textContent = fullName || username || 'User';
+            document.getElementById('userRoleDisplay').textContent = role === 'Admin' ? 'Administrator' : 'User';
+            document.getElementById('userWelcome').textContent = `Hello, ${fullName || username || 'User'}`;
 
             // Logout handler
             document.getElementById('logoutBtn').addEventListener('click', () => {

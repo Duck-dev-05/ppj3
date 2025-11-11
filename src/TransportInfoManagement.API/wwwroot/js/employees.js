@@ -5,32 +5,32 @@ window.loadEmployees = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1><i class="fas fa-users"></i> Quản lý Nhân viên</h1>
+            <h1><i class="fas fa-users"></i> Manage Employees</h1>
             <button class="btn btn-primary" onclick="showEmployeeModal()">
-                <i class="fas fa-plus"></i> Thêm nhân viên
+                <i class="fas fa-plus"></i> Add Employee
             </button>
         </div>
         <div class="card">
             <div class="search-bar">
                 <select id="filterService" onchange="loadEmployeesData()">
-                    <option value="">Tất cả dịch vụ</option>
+                    <option value="">All Services</option>
                 </select>
                 <select id="filterDepartment" onchange="loadEmployeesData()">
-                    <option value="">Tất cả phòng ban</option>
+                    <option value="">All Departments</option>
                 </select>
             </div>
             <div class="table-container">
                 <table id="employeesTable">
                     <thead>
                         <tr>
-                            <th>Mã NV</th>
-                            <th>Họ tên</th>
+                            <th>Employee Code</th>
+                            <th>Full Name</th>
                             <th>Email</th>
-                            <th>SĐT</th>
-                            <th>Chức vụ</th>
-                            <th>Dịch vụ</th>
-                            <th>Phòng ban</th>
-                            <th>Thao tác</th>
+                            <th>Phone</th>
+                            <th>Position</th>
+                            <th>Service</th>
+                            <th>Department</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -79,10 +79,10 @@ async function loadEmployeesData() {
                 <td>${emp.service?.name || 'N/A'}</td>
                 <td>${emp.department?.name || 'N/A'}</td>
                 <td class="actions">
-                    <button class="btn-icon btn-edit" onclick="editEmployee(${emp.id})" title="Sửa">
+                    <button class="btn-icon btn-edit" onclick="editEmployee(${emp.id})" title="Edit">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn-icon btn-delete" onclick="deleteEmployee(${emp.id})" title="Xóa">
+                    <button class="btn-icon btn-delete" onclick="deleteEmployee(${emp.id})" title="Delete">
                         <i class="fas fa-trash"></i>
                     </button>
                 </td>
@@ -95,15 +95,15 @@ async function loadEmployeesData() {
 
 async function showEmployeeModal(empId = null) {
     const emp = empId ? await api.get(`/employees/${empId}`) : null;
-    const modal = createModal('employeeModal', empId ? 'Sửa nhân viên' : 'Thêm nhân viên', `
+    const modal = createModal('employeeModal', empId ? 'Edit Employee' : 'Add Employee', `
         <form id="employeeForm">
             <div class="form-row">
                 <div class="form-group">
-                    <label>Mã nhân viên</label>
+                    <label>Employee Code</label>
                     <input type="text" id="empCode" value="${emp?.employeeCode || ''}">
                 </div>
                 <div class="form-group">
-                    <label>Họ tên</label>
+                    <label>Full Name</label>
                     <input type="text" id="empFullName" value="${emp?.fullName || ''}" required>
                 </div>
             </div>
@@ -113,39 +113,39 @@ async function showEmployeeModal(empId = null) {
                     <input type="email" id="empEmail" value="${emp?.email || ''}" required>
                 </div>
                 <div class="form-group">
-                    <label>SĐT</label>
+                    <label>Phone</label>
                     <input type="text" id="empPhone" value="${emp?.phone || ''}">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Chức vụ</label>
+                    <label>Position</label>
                     <input type="text" id="empPosition" value="${emp?.position || ''}">
                 </div>
                 <div class="form-group">
-                    <label>Dịch vụ</label>
+                    <label>Service</label>
                     <select id="empServiceId" required>
-                        <option value="">Chọn dịch vụ</option>
+                        <option value="">Select Service</option>
                         ${services.map(s => `<option value="${s.id}" ${emp?.serviceId === s.id ? 'selected' : ''}>${s.name}</option>`).join('')}
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label>Phòng ban</label>
+                <label>Department</label>
                 <select id="empDepartmentId" required>
-                    <option value="">Chọn phòng ban</option>
+                    <option value="">Select Department</option>
                     ${departments.map(d => `<option value="${d.id}" ${emp?.departmentId === d.id ? 'selected' : ''}>${d.name}</option>`).join('')}
                 </select>
             </div>
             <div class="form-group">
                 <label>
                     <input type="checkbox" id="empIsActive" ${emp?.isActive !== false ? 'checked' : ''}>
-                    Hoạt động
+                    Active
                 </label>
             </div>
             <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
-                <button type="button" class="btn" onclick="closeModal('employeeModal')">Hủy</button>
-                <button type="submit" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn" onclick="closeModal('employeeModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
     `);
@@ -174,7 +174,7 @@ async function showEmployeeModal(empId = null) {
             closeModal('employeeModal');
             await loadEmployeesData();
         } catch (error) {
-            alert('Lỗi: ' + error.message);
+            alert('Error: ' + error.message);
         }
     });
 }
@@ -184,12 +184,12 @@ async function editEmployee(id) {
 }
 
 async function deleteEmployee(id) {
-    if (!confirm('Bạn có chắc muốn xóa nhân viên này?')) return;
+    if (!confirm('Are you sure you want to delete this employee?')) return;
     try {
         await api.delete(`/employees/${id}`);
         await loadEmployeesData();
     } catch (error) {
-        alert('Lỗi: ' + error.message);
+        alert('Error: ' + error.message);
     }
 }
 

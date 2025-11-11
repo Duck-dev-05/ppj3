@@ -28,7 +28,7 @@ if (loginForm) {
                 window.location.href = '/';
             }
         } catch (error) {
-            let errorMessage = 'Tên đăng nhập hoặc mật khẩu không đúng';
+            let errorMessage = 'Incorrect username or password';
             try {
                 if (error.message) {
                     // Try to extract message from error response
@@ -36,7 +36,7 @@ if (loginForm) {
                     if (match) {
                         errorMessage = match[1];
                     } else if (error.message.includes('401') || error.message.includes('Unauthorized')) {
-                        errorMessage = 'Tên đăng nhập hoặc mật khẩu không đúng';
+                        errorMessage = 'Incorrect username or password';
                     }
                 }
             } catch (e) {

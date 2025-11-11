@@ -4,27 +4,27 @@ window.loadProducts = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1><i class="fas fa-box"></i> Quản lý Sản phẩm</h1>
+            <h1><i class="fas fa-box"></i> Manage Products</h1>
             <button class="btn btn-primary" onclick="showProductModal()">
-                <i class="fas fa-plus"></i> Thêm sản phẩm
+                <i class="fas fa-plus"></i> Add Product
             </button>
         </div>
         <div class="card">
             <div class="search-bar">
                 <select id="filterClient" onchange="loadProductsData()">
-                    <option value="">Tất cả khách hàng</option>
+                    <option value="">All Clients</option>
                 </select>
             </div>
             <div class="table-container">
                 <table id="productsTable">
                     <thead>
                         <tr>
-                            <th>Mã SP</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Khách hàng</th>
-                            <th>Danh mục</th>
-                            <th>Mô tả</th>
-                            <th>Thao tác</th>
+                            <th>Product Code</th>
+                            <th>Product Name</th>
+                            <th>Client</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -74,38 +74,38 @@ async function loadProductsData() {
 
 async function showProductModal(productId = null) {
     const product = productId ? await api.get(`/products/${productId}`) : null;
-    const modal = createModal('productModal', productId ? 'Sửa sản phẩm' : 'Thêm sản phẩm', `
+    const modal = createModal('productModal', productId ? 'Edit Product' : 'Add Product', `
         <form id="productForm">
             <div class="form-row">
                 <div class="form-group">
-                    <label>Mã sản phẩm</label>
+                    <label>Product Code</label>
                     <input type="text" id="productCode" value="${product?.productCode || ''}">
                 </div>
                 <div class="form-group">
-                    <label>Tên sản phẩm</label>
+                    <label>Product Name</label>
                     <input type="text" id="productName" value="${product?.productName || ''}" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Khách hàng</label>
+                    <label>Client</label>
                     <select id="productClientId" required>
-                        <option value="">Chọn khách hàng</option>
+                        <option value="">Select Client</option>
                         ${clients.map(c => `<option value="${c.id}" ${product?.clientId === c.id ? 'selected' : ''}>${c.companyName}</option>`).join('')}
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Danh mục</label>
+                    <label>Category</label>
                     <input type="text" id="productCategory" value="${product?.category || ''}">
                 </div>
             </div>
             <div class="form-group">
-                <label>Mô tả</label>
+                <label>Description</label>
                 <textarea id="productDescription" rows="3">${product?.description || ''}</textarea>
             </div>
             <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
-                <button type="button" class="btn" onclick="closeModal('productModal')">Hủy</button>
-                <button type="submit" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn" onclick="closeModal('productModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
     `);
@@ -131,7 +131,7 @@ async function showProductModal(productId = null) {
             closeModal('productModal');
             await loadProductsData();
         } catch (error) {
-            alert('Lỗi: ' + error.message);
+            alert('Error: ' + error.message);
         }
     });
 }
@@ -141,12 +141,12 @@ async function editProduct(id) {
 }
 
 async function deleteProduct(id) {
-    if (!confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
+    if (!confirm('Are you sure you want to delete this product?')) return;
     try {
         await api.delete(`/products/${id}`);
         await loadProductsData();
     } catch (error) {
-        alert('Lỗi: ' + error.message);
+        alert('Error: ' + error.message);
     }
 }
 

@@ -2,24 +2,24 @@ window.loadServices = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1><i class="fas fa-cog"></i> Quản lý Dịch vụ</h1>
+            <h1><i class="fas fa-cog"></i> Manage Services</h1>
             <button class="btn btn-primary" onclick="showServiceModal()">
-                <i class="fas fa-plus"></i> Thêm dịch vụ
+                <i class="fas fa-plus"></i> Add Service
             </button>
         </div>
         <div class="card">
             <div class="card-header">
-                <h2>Danh sách dịch vụ</h2>
+                <h2>Service List</h2>
             </div>
             <div class="table-container">
                 <table id="servicesTable">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Tên dịch vụ</th>
-                            <th>Mô tả</th>
-                            <th>Trạng thái</th>
-                            <th>Thao tác</th>
+                            <th>Service Name</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -28,15 +28,15 @@ window.loadServices = async function() {
         </div>
         <div class="card">
             <div class="card-header">
-                <h2>Phí dịch vụ</h2>
+                <h2>Service Fees</h2>
             </div>
             <div class="table-container">
                 <table id="serviceFeesTable">
                     <thead>
                         <tr>
-                            <th>Dịch vụ</th>
-                            <th>Phí (USD/ngày/nhân viên)</th>
-                            <th>Thao tác</th>
+                            <th>Service</th>
+                            <th>Fee (USD/day/employee)</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -58,12 +58,12 @@ async function loadServicesData() {
                 <td>${service.id}</td>
                 <td>${service.name}</td>
                 <td>${service.description}</td>
-                <td>${service.isActive ? 'Hoạt động' : 'Không hoạt động'}</td>
+                <td>${service.isActive ? 'Active' : 'Inactive'}</td>
                 <td class="actions">
-                    <button class="btn-icon btn-edit" onclick="editService(${service.id})" title="Sửa">
+                    <button class="btn-icon btn-edit" onclick="editService(${service.id})" title="Edit">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn-icon btn-delete" onclick="deleteService(${service.id})" title="Xóa">
+                    <button class="btn-icon btn-delete" onclick="deleteService(${service.id})" title="Delete">
                         <i class="fas fa-trash"></i>
                     </button>
                 </td>
@@ -84,7 +84,7 @@ async function loadServiceFees() {
                 <td>$${fee.feePerDayPerEmployee.toLocaleString()}</td>
                 <td>
                     <button class="btn btn-sm btn-primary" onclick="editServiceFee(${fee.id}, ${fee.serviceId})">
-                        <i class="fas fa-edit"></i> Sửa phí
+                        <i class="fas fa-edit"></i> Edit Fee
                     </button>
                 </td>
             </tr>
@@ -96,28 +96,28 @@ async function loadServiceFees() {
 
 async function showServiceModal(serviceId = null) {
     const service = serviceId ? await api.get(`/services/${serviceId}`) : null;
-    const modal = createModal('serviceModal', serviceId ? 'Sửa dịch vụ' : 'Thêm dịch vụ', `
+    const modal = createModal('serviceModal', serviceId ? 'Edit Service' : 'Add Service', `
         <form id="serviceForm">
             <div class="form-group">
-                <label>Tên dịch vụ</label>
+                <label>Service Name</label>
                 <input type="text" id="serviceName" value="${service?.name || ''}" required>
             </div>
             <div class="form-group">
-                <label>Mô tả</label>
+                <label>Description</label>
                 <textarea id="serviceDescription" rows="3">${service?.description || ''}</textarea>
             </div>
             <div class="form-group">
                 <label>
                     <input type="checkbox" id="serviceIsActive" ${service?.isActive !== false ? 'checked' : ''}>
-                    Hoạt động
+                    Active
                 </label>
             </div>
             <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
                 <button type="button" class="btn" onclick="closeModal('serviceModal')">
-                    <i class="fas fa-times"></i> Hủy
+                    <i class="fas fa-times"></i> Cancel
                 </button>
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Lưu
+                    <i class="fas fa-save"></i> Save
                 </button>
             </div>
         </form>
@@ -142,7 +142,7 @@ async function showServiceModal(serviceId = null) {
             closeModal('serviceModal');
             await loadServicesData();
         } catch (error) {
-            alert('Lỗi: ' + error.message);
+            alert('Error: ' + error.message);
         }
     });
 }
@@ -152,19 +152,19 @@ async function editService(id) {
 }
 
 async function deleteService(id) {
-    if (!confirm('Bạn có chắc muốn xóa dịch vụ này?')) return;
+    if (!confirm('Are you sure you want to delete this service?')) return;
     try {
         await api.delete(`/services/${id}`);
         await loadServicesData();
     } catch (error) {
-        alert('Lỗi: ' + error.message);
+        alert('Error: ' + error.message);
     }
 }
 
 async function editServiceFee(id, serviceId) {
     const fee = await api.get('/services/fees');
     const serviceFee = fee.find(f => f.id === id);
-    const newFee = prompt(`Nhập phí mới cho ${serviceFee.service.name} (USD/ngày/nhân viên):`, serviceFee.feePerDayPerEmployee);
+    const newFee = prompt(`Enter new fee for ${serviceFee.service.name} (USD/day/employee):`, serviceFee.feePerDayPerEmployee);
     if (newFee && !isNaN(newFee)) {
         try {
             await api.put(`/services/fees/${id}`, {
@@ -174,7 +174,7 @@ async function editServiceFee(id, serviceId) {
             });
             await loadServiceFees();
         } catch (error) {
-            alert('Lỗi: ' + error.message);
+            alert('Error: ' + error.message);
         }
     }
 }

@@ -4,35 +4,35 @@ window.loadPayments = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1><i class="fas fa-money-bill-wave"></i> Quản lý Thanh toán</h1>
+            <h1><i class="fas fa-money-bill-wave"></i> Manage Payments</h1>
             <button class="btn btn-primary" onclick="showPaymentModal()">
-                <i class="fas fa-plus"></i> Thêm thanh toán
+                <i class="fas fa-plus"></i> Add Payment
             </button>
         </div>
         <div class="card">
             <div class="search-bar">
                 <select id="filterClient" onchange="loadPaymentsData()">
-                    <option value="">Tất cả khách hàng</option>
+                    <option value="">All Clients</option>
                 </select>
                 <select id="filterStatus" onchange="loadPaymentsData()">
-                    <option value="">Tất cả trạng thái</option>
-                    <option value="Pending">Chờ thanh toán</option>
-                    <option value="Paid">Đã thanh toán</option>
-                    <option value="Overdue">Quá hạn</option>
+                    <option value="">All Statuses</option>
+                    <option value="Pending">Pending Payment</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Overdue">Overdue</option>
                 </select>
             </div>
             <div class="table-container">
                 <table id="paymentsTable">
                     <thead>
                         <tr>
-                            <th>Mã TT</th>
-                            <th>Khách hàng</th>
-                            <th>Số tiền</th>
-                            <th>Ngày thanh toán</th>
-                            <th>Hạn thanh toán</th>
-                            <th>Phương thức</th>
-                            <th>Trạng thái</th>
-                            <th>Thao tác</th>
+                            <th>Payment Code</th>
+                            <th>Client</th>
+                            <th>Amount</th>
+                            <th>Payment Date</th>
+                            <th>Due Date</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -41,9 +41,9 @@ window.loadPayments = async function() {
         </div>
         <div class="card">
             <div class="card-header">
-                <h2>Thanh toán quá hạn</h2>
+                <h2>Overdue Payments</h2>
             </div>
-            <button class="btn btn-warning" onclick="loadOverduePayments()">Xem thanh toán quá hạn</button>
+            <button class="btn btn-warning" onclick="loadOverduePayments()">View Overdue Payments</button>
             <div id="overduePayments" style="margin-top: 1rem;"></div>
         </div>
     `;
@@ -84,15 +84,15 @@ async function loadPaymentsData() {
                         payment.status === 'Paid' ? '#10b981' : 
                         payment.status === 'Overdue' ? '#ef4444' : '#f59e0b'
                     }; color: white;">
-                        ${payment.status === 'Paid' ? 'Đã thanh toán' : 
-                          payment.status === 'Overdue' ? 'Quá hạn' : 'Chờ thanh toán'}
+                        ${payment.status === 'Paid' ? 'Paid' : 
+                          payment.status === 'Overdue' ? 'Overdue' : 'Pending Payment'}
                     </span>
                 </td>
                 <td class="actions">
-                    <button class="btn-icon btn-edit" onclick="editPayment(${payment.id})" title="Sửa">
+                    <button class="btn-icon btn-edit" onclick="editPayment(${payment.id})" title="Edit">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn-icon btn-delete" onclick="deletePayment(${payment.id})" title="Xóa">
+                    <button class="btn-icon btn-delete" onclick="deletePayment(${payment.id})" title="Delete">
                         <i class="fas fa-trash"></i>
                     </button>
                 </td>
@@ -108,7 +108,7 @@ async function loadOverduePayments() {
         const overdue = await api.get('/payments/overdue');
         const container = document.getElementById('overduePayments');
         if (overdue.length === 0) {
-            container.innerHTML = '<p>Không có thanh toán quá hạn.</p>';
+            container.innerHTML = '<p>No overdue payments.</p>';
             return;
         }
         
@@ -116,11 +116,11 @@ async function loadOverduePayments() {
             <table>
                 <thead>
                     <tr>
-                        <th>Mã TT</th>
-                        <th>Khách hàng</th>
-                        <th>Số tiền</th>
-                        <th>Hạn thanh toán</th>
-                        <th>Số ngày quá hạn</th>
+                        <th>Payment Code</th>
+                        <th>Client</th>
+                        <th>Amount</th>
+                        <th>Due Date</th>
+                        <th>Days Overdue</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -130,7 +130,7 @@ async function loadOverduePayments() {
                             <td>${p.client?.companyName || 'N/A'}</td>
                             <td>$${p.amount.toLocaleString()}</td>
                             <td>${new Date(p.dueDate).toLocaleDateString('vi-VN')}</td>
-                            <td>${(new Date() - new Date(p.dueDate)) / (1000 * 60 * 60 * 24)} ngày</td>
+                            <td>${(new Date() - new Date(p.dueDate)) / (1000 * 60 * 60 * 24)} days</td>
                         </tr>
                     `).join('')}
                 </tbody>
@@ -143,56 +143,56 @@ async function loadOverduePayments() {
 
 async function showPaymentModal(paymentId = null) {
     const payment = paymentId ? await api.get(`/payments/${paymentId}`) : null;
-    const modal = createModal('paymentModal', paymentId ? 'Sửa thanh toán' : 'Thêm thanh toán', `
+    const modal = createModal('paymentModal', paymentId ? 'Edit Payment' : 'Add Payment', `
         <form id="paymentForm">
             <div class="form-row">
                 <div class="form-group">
-                    <label>Mã thanh toán</label>
+                    <label>Payment Code</label>
                     <input type="text" id="paymentCode" value="${payment?.paymentCode || ''}">
                 </div>
                 <div class="form-group">
-                    <label>Khách hàng</label>
+                    <label>Client</label>
                     <select id="paymentClientId" required>
-                        <option value="">Chọn khách hàng</option>
+                        <option value="">Select Client</option>
                         ${clients.map(c => `<option value="${c.id}" ${payment?.clientId === c.id ? 'selected' : ''}>${c.companyName}</option>`).join('')}
                     </select>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Số tiền</label>
+                    <label>Amount</label>
                     <input type="number" id="paymentAmount" value="${payment?.amount || ''}" step="0.01" required>
                 </div>
                 <div class="form-group">
-                    <label>Hạn thanh toán</label>
+                    <label>Due Date</label>
                     <input type="date" id="paymentDueDate" value="${payment ? new Date(payment.dueDate).toISOString().split('T')[0] : ''}" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Phương thức thanh toán</label>
+                    <label>Payment Method</label>
                     <select id="paymentMethod" required>
-                        <option value="Cash" ${payment?.paymentMethod === 'Cash' ? 'selected' : ''}>Tiền mặt</option>
-                        <option value="Bank Transfer" ${payment?.paymentMethod === 'Bank Transfer' ? 'selected' : ''}>Chuyển khoản</option>
-                        <option value="Credit Card" ${payment?.paymentMethod === 'Credit Card' ? 'selected' : ''}>Thẻ tín dụng</option>
+                        <option value="Cash" ${payment?.paymentMethod === 'Cash' ? 'selected' : ''}>Cash</option>
+                        <option value="Bank Transfer" ${payment?.paymentMethod === 'Bank Transfer' ? 'selected' : ''}>Bank Transfer</option>
+                        <option value="Credit Card" ${payment?.paymentMethod === 'Credit Card' ? 'selected' : ''}>Credit Card</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Trạng thái</label>
+                    <label>Status</label>
                     <select id="paymentStatus" required>
-                        <option value="Pending" ${payment?.status === 'Pending' ? 'selected' : ''}>Chờ thanh toán</option>
-                        <option value="Paid" ${payment?.status === 'Paid' ? 'selected' : ''}>Đã thanh toán</option>
-                        <option value="Overdue" ${payment?.status === 'Overdue' ? 'selected' : ''}>Quá hạn</option>
+                        <option value="Pending" ${payment?.status === 'Pending' ? 'selected' : ''}>Pending Payment</option>
+                        <option value="Paid" ${payment?.status === 'Paid' ? 'selected' : ''}>Paid</option>
+                        <option value="Overdue" ${payment?.status === 'Overdue' ? 'selected' : ''}>Overdue</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label>Ghi chú</label>
+                <label>Notes</label>
                 <textarea id="paymentNotes" rows="3">${payment?.notes || ''}</textarea>
             </div>
             <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
-                <button type="button" class="btn" onclick="closeModal('paymentModal')">Hủy</button>
-                <button type="submit" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn" onclick="closeModal('paymentModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
     `);
@@ -220,7 +220,7 @@ async function showPaymentModal(paymentId = null) {
             closeModal('paymentModal');
             await loadPaymentsData();
         } catch (error) {
-            alert('Lỗi: ' + error.message);
+            alert('Error: ' + error.message);
         }
     });
 }
@@ -230,12 +230,12 @@ async function editPayment(id) {
 }
 
 async function deletePayment(id) {
-    if (!confirm('Bạn có chắc muốn xóa thanh toán này?')) return;
+    if (!confirm('Are you sure you want to delete this payment?')) return;
     try {
         await api.delete(`/payments/${id}`);
         await loadPaymentsData();
     } catch (error) {
-        alert('Lỗi: ' + error.message);
+        alert('Error: ' + error.message);
     }
 }
 

@@ -2,30 +2,30 @@ window.loadClients = async function() {
     const content = document.getElementById('pageContent');
     content.innerHTML = `
         <div class="page-header">
-            <h1><i class="fas fa-user-tie"></i> Quản lý Khách hàng</h1>
+            <h1><i class="fas fa-user-tie"></i> Manage Clients</h1>
             <button class="btn btn-primary" onclick="showClientModal()">
-                <i class="fas fa-plus"></i> Thêm khách hàng
+                <i class="fas fa-plus"></i> Add Client
             </button>
         </div>
         <div class="card">
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Tìm kiếm khách hàng..." onkeyup="loadClientsData()">
+                <input type="text" id="searchInput" placeholder="Search clients..." onkeyup="loadClientsData()">
                 <button class="btn btn-primary" onclick="showAdvancedSearch()">
-                    <i class="fas fa-search"></i> Tìm kiếm nâng cao
+                    <i class="fas fa-search"></i> Advanced Search
                 </button>
             </div>
             <div class="table-container">
                 <table id="clientsTable">
                     <thead>
                         <tr>
-                            <th>Mã KH</th>
-                            <th>Tên công ty</th>
-                            <th>Người liên hệ</th>
+                            <th>Client Code</th>
+                            <th>Company Name</th>
+                            <th>Contact Person</th>
                             <th>Email</th>
-                            <th>SĐT</th>
-                            <th>Thành phố</th>
-                            <th>Trạng thái</th>
-                            <th>Thao tác</th>
+                            <th>Phone</th>
+                            <th>City</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -51,12 +51,12 @@ async function loadClientsData() {
                 <td>${client.email}</td>
                 <td>${client.phone}</td>
                 <td>${client.city}</td>
-                <td>${client.isActive ? 'Hoạt động' : 'Không hoạt động'}</td>
+                <td>${client.isActive ? 'Active' : 'Inactive'}</td>
                 <td class="actions">
-                    <button class="btn-icon btn-edit" onclick="editClient(${client.id})" title="Sửa">
+                    <button class="btn-icon btn-edit" onclick="editClient(${client.id})" title="Edit">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn-icon btn-delete" onclick="deleteClient(${client.id})" title="Xóa">
+                    <button class="btn-icon btn-delete" onclick="deleteClient(${client.id})" title="Delete">
                         <i class="fas fa-trash"></i>
                     </button>
                 </td>
@@ -68,11 +68,11 @@ async function loadClientsData() {
 }
 
 function showAdvancedSearch() {
-    const modal = createModal('advancedSearchModal', 'Tìm kiếm nâng cao', `
+    const modal = createModal('advancedSearchModal', 'Advanced Search', `
         <form id="advancedSearchForm">
             <div class="form-row">
                 <div class="form-group">
-                    <label>Tên công ty</label>
+                    <label>Company Name</label>
                     <input type="text" id="searchCompanyName">
                 </div>
                 <div class="form-group">
@@ -82,25 +82,25 @@ function showAdvancedSearch() {
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Thành phố</label>
+                    <label>City</label>
                     <input type="text" id="searchCity">
                 </div>
                 <div class="form-group">
-                    <label>Quốc gia</label>
+                    <label>Country</label>
                     <input type="text" id="searchCountry">
                 </div>
             </div>
             <div class="form-group">
-                <label>Trạng thái</label>
+                <label>Status</label>
                 <select id="searchIsActive">
-                    <option value="">Tất cả</option>
-                    <option value="true">Hoạt động</option>
-                    <option value="false">Không hoạt động</option>
+                    <option value="">All</option>
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
                 </select>
             </div>
             <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
-                <button type="button" class="btn" onclick="closeModal('advancedSearchModal')">Hủy</button>
-                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                <button type="button" class="btn" onclick="closeModal('advancedSearchModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </form>
     `);
@@ -132,7 +132,7 @@ function showAdvancedSearch() {
                     <td>${client.email}</td>
                     <td>${client.phone}</td>
                     <td>${client.city}</td>
-                    <td>${client.isActive ? 'Hoạt động' : 'Không hoạt động'}</td>
+                    <td>${client.isActive ? 'Active' : 'Inactive'}</td>
                     <td class="actions">
                         <button class="btn-icon btn-edit" onclick="editClient(${client.id})">✏️</button>
                         <button class="btn-icon btn-delete" onclick="deleteClient(${client.id})">🗑️</button>
@@ -141,28 +141,28 @@ function showAdvancedSearch() {
             `).join('');
             closeModal('advancedSearchModal');
         } catch (error) {
-            alert('Lỗi: ' + error.message);
+            alert('Error: ' + error.message);
         }
     });
 }
 
 async function showClientModal(clientId = null) {
     const client = clientId ? await api.get(`/clients/${clientId}`) : null;
-    const modal = createModal('clientModal', clientId ? 'Sửa khách hàng' : 'Thêm khách hàng', `
+    const modal = createModal('clientModal', clientId ? 'Edit Client' : 'Add Client', `
         <form id="clientForm">
             <div class="form-row">
                 <div class="form-group">
-                    <label>Mã khách hàng</label>
+                    <label>Client Code</label>
                     <input type="text" id="clientCode" value="${client?.clientCode || ''}">
                 </div>
                 <div class="form-group">
-                    <label>Tên công ty</label>
+                    <label>Company Name</label>
                     <input type="text" id="clientCompanyName" value="${client?.companyName || ''}" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Người liên hệ</label>
+                    <label>Contact Person</label>
                     <input type="text" id="clientContactPerson" value="${client?.contactPerson || ''}" required>
                 </div>
                 <div class="form-group">
@@ -172,33 +172,33 @@ async function showClientModal(clientId = null) {
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>SĐT</label>
+                    <label>Phone</label>
                     <input type="text" id="clientPhone" value="${client?.phone || ''}">
                 </div>
                 <div class="form-group">
-                    <label>Thành phố</label>
+                    <label>City</label>
                     <input type="text" id="clientCity" value="${client?.city || ''}">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Quốc gia</label>
+                    <label>Country</label>
                     <input type="text" id="clientCountry" value="${client?.country || ''}">
                 </div>
                 <div class="form-group">
-                    <label>Địa chỉ</label>
+                    <label>Address</label>
                     <input type="text" id="clientAddress" value="${client?.address || ''}">
                 </div>
             </div>
             <div class="form-group">
                 <label>
                     <input type="checkbox" id="clientIsActive" ${client?.isActive !== false ? 'checked' : ''}>
-                    Hoạt động
+                    Active
                 </label>
             </div>
             <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
-                <button type="button" class="btn" onclick="closeModal('clientModal')">Hủy</button>
-                <button type="submit" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn" onclick="closeModal('clientModal')">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
     `);
@@ -228,7 +228,7 @@ async function showClientModal(clientId = null) {
             closeModal('clientModal');
             await loadClientsData();
         } catch (error) {
-            alert('Lỗi: ' + error.message);
+            alert('Error: ' + error.message);
         }
     });
 }
@@ -238,12 +238,12 @@ async function editClient(id) {
 }
 
 async function deleteClient(id) {
-    if (!confirm('Bạn có chắc muốn xóa khách hàng này?')) return;
+    if (!confirm('Are you sure you want to delete this client?')) return;
     try {
         await api.delete(`/clients/${id}`);
         await loadClientsData();
     } catch (error) {
-        alert('Lỗi: ' + error.message);
+        alert('Error: ' + error.message);
     }
 }
 

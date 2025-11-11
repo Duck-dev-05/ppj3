@@ -63,7 +63,7 @@ if (loginForm) {
                 window.loadDashboard();
             }
         } catch (error) {
-            let errorMessage = 'Tên đăng nhập hoặc mật khẩu không đúng';
+            let errorMessage = 'Incorrect username or password';
             try {
                 if (error.message) {
                     // Try to extract message from error response
@@ -96,13 +96,13 @@ if (registerForm) {
 
         // Validate passwords match
         if (password !== confirmPassword) {
-            registerError.textContent = 'Mật khẩu xác nhận không khớp';
+            registerError.textContent = 'Confirm password does not match';
             return;
         }
 
         // Validate password length
         if (password.length < 6) {
-            registerError.textContent = 'Mật khẩu phải có ít nhất 6 ký tự';
+            registerError.textContent = 'Password must be at least 6 characters long';
             return;
         }
 
@@ -115,7 +115,7 @@ if (registerForm) {
             });
 
             if (response.success) {
-                registerSuccess.textContent = 'Đăng ký thành công! Đang chuyển hướng...';
+                registerSuccess.textContent = 'Registration successful! Redirecting...';
                 
                 // Auto login after successful registration
                 api.setToken(response.token);
@@ -133,11 +133,11 @@ if (registerForm) {
                     }
                 }, 1500);
             } else {
-                registerError.textContent = response.message || 'Đăng ký thất bại';
+                registerError.textContent = response.message || 'Registration failed';
             }
         } catch (error) {
             // Error message is already formatted by api.js
-            registerError.textContent = error.message || 'Có lỗi xảy ra khi đăng ký';
+            registerError.textContent = error.message || 'An error occurred during registration';
             console.error('Register error:', error);
         }
     });

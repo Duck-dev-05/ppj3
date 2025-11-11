@@ -35,7 +35,7 @@ function loadPage(page) {
     if (loadFunction) {
         loadFunction();
     } else {
-        document.getElementById('pageContent').innerHTML = '<h1>Trang không tồn tại</h1>';
+        document.getElementById('pageContent').innerHTML = '<h1>Page not found</h1>';
     }
 }
 

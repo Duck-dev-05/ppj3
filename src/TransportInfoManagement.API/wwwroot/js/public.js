@@ -50,7 +50,7 @@ function toggleUserMenu(trigger) {
     menu.innerHTML = `
         <div style="padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color); margin-bottom: 0.75rem;">
             <div style="font-weight: 600; color: var(--text-color);">${fullName || username}</div>
-            <div style="font-size: 0.875rem; color: var(--text-secondary);">${role === 'Admin' ? 'Quản trị viên' : 'Người dùng'}</div>
+            <div style="font-size: 0.875rem; color: var(--text-secondary);">${role === 'Admin' ? 'Administrator' : 'User'}</div>
         </div>
         ${role === 'Admin' ? `
             <a href="/admin" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; color: var(--text-color); text-decoration: none; border-radius: 4px; transition: background 0.2s;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='transparent'">
@@ -58,7 +58,7 @@ function toggleUserMenu(trigger) {
             </a>
         ` : ''}
         <a href="#" id="logoutBtnPublic" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; color: var(--danger-color); text-decoration: none; border-radius: 4px; transition: background 0.2s; margin-top: 0.5rem;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='transparent'">
-            <i class="fas fa-sign-out-alt"></i> Đăng xuất
+            <i class="fas fa-sign-out-alt"></i> Logout
         </a>
     `;
     
@@ -215,27 +215,27 @@ contactForm?.addEventListener('submit', async (e) => {
 
     // Simple validation
     if (!formData.name || !formData.email || !formData.message || !formData.subject) {
-        showFormMessage('Vui lòng điền đầy đủ thông tin bắt buộc', 'error');
+        showFormMessage('Please fill in all required information', 'error');
         return;
     }
 
     // Show loading
     contactMessageDiv.className = 'form-message';
     contactMessageDiv.style.display = 'block';
-    contactMessageDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
+    contactMessageDiv.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
     try {
         // In a real application, you would send this to your backend API
         // For now, we'll simulate a successful submission
         await new Promise(resolve => setTimeout(resolve, 1500));
         
-        showFormMessage('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm nhất có thể.', 'success');
+        showFormMessage('Thank you for contacting us! We will respond as soon as possible.', 'success');
         contactForm.reset();
         
         // Scroll to message
         contactMessageDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } catch (error) {
-        showFormMessage('Có lỗi xảy ra. Vui lòng thử lại sau.', 'error');
+        showFormMessage('An error occurred. Please try again later.', 'error');
     }
 });
 
